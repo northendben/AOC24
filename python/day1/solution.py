@@ -2,7 +2,8 @@ import string
 import re
 left_side = []
 right_side = []
-differences = []
+part_one_difference = 0
+part_two_similarity = 0
 java_file = ""
 with open('input.txt', 'r') as file:
     for row in file:
@@ -19,8 +20,19 @@ with open('input.txt', 'r') as file:
 left_side.sort()
 right_side.sort()
 
-for num in range(0,len(left_side)):
-    difference = abs(left_side[num] - right_side[num])
-    differences.append(difference)
+def part_one(part_one_difference):
+    for num in range(0,len(left_side)):
+        difference = abs(left_side[num] - right_side[num])
+        part_one_difference += difference
+    
+    print(part_one_difference)
 
-print(sum(differences))
+def part_two(part_two_similarity):
+    for num in left_side:
+        num_of_occurences = right_side.count(num)
+        score = num_of_occurences * num
+        part_two_similarity += score
+    print(part_two_similarity)
+
+part_one(part_one_difference)
+part_two(part_two_similarity)
