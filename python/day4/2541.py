@@ -8,11 +8,15 @@ input_data = input_parser.parse_input("str")
 for index, row in enumerate(input_data):
         input_data[index] = row.replace("\n", "")
 locations = []
+p2_locations = []
 times_matched = 0
+times_matched_p2 = 0
 for index,row in enumerate(input_data):
     for inner_index, char in enumerate(row):
         if char.lower() == "x":
             locations.append((index, inner_index))
+        if char.lower() == "m":
+            p2_locations.append((index, inner_index))
 
 matches = []
 def check_right(y_axis,x_axis):
@@ -136,10 +140,10 @@ for coordinate in locations:
         if check_ddr(starting_y_axis, starting_x_axis):
             c_count +=1 
             dict_model[coordinate]["ddr"] = True
-        if starting_x_axis > 2 and check_ddl(starting_y_axis, starting_x_axis):
+        if starting_x_axis > 2 and starting_y_axis >2  and check_ddl(starting_y_axis, starting_x_axis):
             c_count +=1
             dict_model[coordinate]["ddl"] = True
-        if starting_x_axis > 2 and starting_y_axis > 2 and check_udl(starting_y_axis, starting_x_axis):
+        if starting_x_axis > 2 and check_udl(starting_y_axis, starting_x_axis):
             c_count +=1 
             dict_model[coordinate]["udl"] = True
         if starting_y_axis > 2 and check_udr(starting_y_axis, starting_x_axis):
@@ -211,3 +215,98 @@ with open("day4_matches.json", "w") as file:
 
     
 
+
+def p2_check(starting_y_axis, starting_x_axis):
+    found = 0
+    # pdb.set_trace()
+    try:
+        if input_data[starting_y_axis][starting_x_axis + 2] == "S":
+            if input_data[starting_y_axis + 2][starting_x_axis] == "M":
+                if input_data[starting_y_axis +1][starting_x_axis +1] == "A":
+                    if input_data[starting_y_axis +2][starting_x_axis + 2] == "S":
+                        
+                        found +=1
+                        return found
+    except:
+        None
+    try:
+        if input_data[starting_y_axis][starting_x_axis + 2] == "M":
+            if input_data[starting_y_axis + 2][starting_x_axis] == "S":
+                if input_data[starting_y_axis +1][starting_x_axis +1] == "A":
+                    if input_data[starting_y_axis + 2][starting_x_axis] == "S":
+                        
+                        found +=1
+                        return found
+    except:
+        None
+    try:
+        if starting_x_axis > 1 and input_data[starting_y_axis][starting_x_axis -2] == "S":
+            if input_data[starting_y_axis + 2][starting_x_axis] == "M":
+                if input_data[starting_y_axis +1][starting_x_axis - 1] == "A":
+                    if input_data[starting_y_axis +2][starting_x_axis - 2] == "M":
+                        
+                        found +=1
+                        return found
+    except:
+        None
+        if starting_x_axis > 1 and input_data[starting_y_axis][starting_x_axis -2] == "M":
+            if input_data[starting_y_axis + 2][starting_x_axis] == "S":
+                if input_data[starting_y_axis +1][starting_x_axis - 1] == "A":
+                    if input_data[starting_y_axis +2][starting_x_axis - 2] == "M":
+                        
+                        found +=1
+                        return found
+    try:
+        if starting_y_axis > 1 and input_data[starting_y_axis][starting_x_axis + 2] == "S":
+            if input_data[starting_y_axis - 2][starting_x_axis] == "M":
+                if input_data[starting_y_axis - 1][starting_x_axis +1] == "A":
+                    if input_data[starting_y_axis +2][starting_x_axis + 2] == "S":
+                        
+                        found +=1
+                        return found
+    except:
+        None
+    try:
+        if starting_y_axis > 1 and input_data[starting_y_axis][starting_x_axis + 2] == "M":
+            if input_data[starting_y_axis - 2][starting_x_axis] == "S":
+                if input_data[starting_y_axis - 1][starting_x_axis +1] == "A":
+                    if input_data[starting_y_axis - 2][starting_x_axis +2] == "S":
+                        
+                        found +=1
+                        return found
+    except:
+        None
+    try:
+        if starting_x_axis > 1 and starting_y_axis > 1 and input_data[starting_y_axis][starting_x_axis -2] == "S":
+            if input_data[starting_y_axis - 2][starting_x_axis] == "M":
+                if input_data[starting_y_axis - 1][starting_x_axis - 1] == "A":
+                    if input_data[starting_y_axis -2][starting_x_axis - 2] == "S":
+                        found +=1
+    except:
+        None
+    try:
+        if starting_x_axis > 1 and starting_y_axis >1 and input_data[starting_y_axis][starting_x_axis -2] == "M":
+            if input_data[starting_y_axis - 2][starting_x_axis] == "S":
+                if input_data[starting_y_axis - 1][starting_x_axis - 1] == "A":
+                    if input_data[starting_y_axis +2][starting_x_axis - 2] == "M":
+                        found +=1
+    except:
+        None
+    return found
+        # else:
+        #     return False
+
+        
+c = []
+for coordinate in p2_locations:
+    starting_y_axis = coordinate[0]
+    starting_x_axis = coordinate[1]
+    if coordinate == [4,5]:
+        pdb.set_trace()
+    matches = p2_check(starting_y_axis, starting_x_axis)
+    if matches > 0:
+        c.append(coordinate)
+    times_matched_p2 += matches
+
+print(times_matched_p2)
+print(c)

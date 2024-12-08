@@ -5,6 +5,8 @@ import input_parser
 import pdb
 import json
 input_data = input_parser.parse_input("str")
+for index, row in enumerate(input_data):
+        input_data[index] = row.replace("\n", "")
 locations = []
 times_matched = 0
 for index,row in enumerate(input_data):
@@ -19,9 +21,11 @@ def check_right(y_axis,x_axis):
             print("cr")
             return True
         else:
+            print("WTF")
             return False
     except Exception as e:
-        return False
+        print(e)
+        # return False
 
 def check_left(y_axis,x_axis):
     try:
@@ -31,6 +35,7 @@ def check_left(y_axis,x_axis):
         else:
             return False
     except Exception as e:
+        print(e)
         return False
     
 def check_up(y_axis,x_axis):
@@ -41,6 +46,7 @@ def check_up(y_axis,x_axis):
         else:
             return False
     except Exception as e:
+        print(e)
         return False
     
 def check_down(y_axis,x_axis):
@@ -51,6 +57,7 @@ def check_down(y_axis,x_axis):
         else:
             return False
     except Exception as e:
+        print(e)
         return False
     
 def check_ddr(y_axis,x_axis):
@@ -61,6 +68,7 @@ def check_ddr(y_axis,x_axis):
         else:
             return False
     except Exception as e:
+        print(e)
         return False
 def check_ddl(y_axis,x_axis):
     try:
@@ -79,6 +87,7 @@ def check_udr(y_axis,x_axis):
         else:
             return False
     except Exception as e:
+        print(e)
         return False
 
 def check_udl(y_axis,x_axis):
@@ -89,6 +98,7 @@ def check_udl(y_axis,x_axis):
         else:
             return False
     except Exception as e:
+        print(e)
         return False
 
 for coordinate in locations:
@@ -114,25 +124,25 @@ for coordinate in locations:
         if check_right(starting_y_axis, starting_x_axis):
             c_count +=1 
             dict_model[coordinate]["cr"] = True
-        if check_left(starting_y_axis, starting_x_axis):
+        if starting_x_axis > 2 and check_left(starting_y_axis, starting_x_axis):
             c_count +=1 
             dict_model[coordinate]["cl"] = True
-        if check_down(starting_y_axis, starting_x_axis):
+        if check_up(starting_y_axis, starting_x_axis):
             c_count +=1 
             dict_model[coordinate]["cd"] = True
-        if check_up(starting_y_axis, starting_x_axis):
+        if starting_y_axis > 2 and check_down(starting_y_axis, starting_x_axis):
             c_count +=1 
             dict_model[coordinate]["cu"] = True
         if check_ddr(starting_y_axis, starting_x_axis):
             c_count +=1 
             dict_model[coordinate]["ddr"] = True
-        if check_ddl(starting_y_axis, starting_x_axis):
+        if starting_x_axis > 2 and check_ddl(starting_y_axis, starting_x_axis):
             c_count +=1
             dict_model[coordinate]["ddl"] = True
-        if check_udl(starting_y_axis, starting_x_axis):
+        if starting_x_axis > 2 and starting_y_axis > 2 and check_udl(starting_y_axis, starting_x_axis):
             c_count +=1 
             dict_model[coordinate]["udl"] = True
-        if check_udr(starting_y_axis, starting_x_axis):
+        if starting_y_axis > 2 and check_udr(starting_y_axis, starting_x_axis):
             c_count +=1
             dict_model[coordinate]["udr"] = True
         if c_count > 0:
